@@ -2,6 +2,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -94,7 +96,7 @@ public class Rgs
         String contactDate = "//*[contains(text(), 'дата')]/parent::div/input";
         WebElement contactDateElement = selectorDriver.findElement(By.xpath(contactDate));
         contactDateElement.click();
-        contactDateElement.sendKeys("04042020");
+        contactDateElement.sendKeys("03042020");
         //Fill field: additional commentaries
         String additionalComments = "//*[text()='Комментарии']/parent::div/textarea";
         WebElement commentsElement = selectorDriver.findElement(By.xpath(additionalComments));
@@ -109,9 +111,16 @@ public class Rgs
         WebElement confirmButtonElement = selectorDriver.findElement(By.xpath(confirmButton));
         confirmButtonElement.click();
         //Check the e-mail is correct
-        addressElement = selectorDriver.findElement(By.xpath(emailAddress));
-        String tmp = addressElement.getText();
-        Assert.assertNotEquals("flames@mail.ru", tmp);
+        WebElement badAddressElement = selectorDriver.findElement(By.xpath(emailAddress + "/parent::div/div/label"));
+
+        Assertions.assertAll(
+                () -> Assert.assertEquals("Агамиров", (String)lastNameElement.getAttribute("value")),
+                () -> Assert.assertEquals("Александр", (String)firstNameElement.getAttribute("value")),
+                () -> Assert.assertEquals("Аркадьевич", (String)paternityElement.getAttribute("value")),
+                () -> Assert.assertEquals( "+7 (916) 214-16-73", (String)phoneNumElement.getAttribute("value")),
+                () -> Assert.assertEquals( "03.04.2020", (String)contactDateElement.getAttribute("value")),
+                () -> Assert.assertTrue(badAddressElement.isDisplayed())
+        );
 
         System.out.println("Congratulations x18");
     }
