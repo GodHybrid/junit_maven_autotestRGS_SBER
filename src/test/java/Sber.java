@@ -1,23 +1,21 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("ALL")
 public class Sber
 {
     WebDriver selectorDriver;
     WebDriverWait waitForLoad;
 
-    @Before
+    @BeforeEach
     public void preparation()
     {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -50,7 +48,7 @@ public class Sber
         String cityXPath = "//div[@class='hd-ft-region__title']/span";
         WebElement cityElement = selectorDriver.findElement(By.xpath(cityXPath));
 
-        Assert.assertTrue((cityElement.getText().contains("Нижегородская")));
+        Assertions.assertTrue((cityElement.getText().contains("Нижегородская")));
 
         String footerXPath = "//footer";
         WebElement footerElement = selectorDriver.findElement((By.xpath(footerXPath)));
@@ -67,7 +65,7 @@ public class Sber
         WebElement vkSocialElement = selectorDriver.findElement(By.xpath("//a[contains(@href,'vk.com')]"));
         WebElement okSocialElement = selectorDriver.findElement(By.xpath("//a[contains(@href,'ok.ru')]"));
 
-        Assert.assertTrue(facebookSocialElement.isDisplayed() && twitterSocialElement.isDisplayed() && youtubeSocialElement.isDisplayed() && instagramSocialElement.isDisplayed() && vkSocialElement.isDisplayed() && okSocialElement.isDisplayed());
+        Assertions.assertTrue(facebookSocialElement.isDisplayed() && twitterSocialElement.isDisplayed() && youtubeSocialElement.isDisplayed() && instagramSocialElement.isDisplayed() && vkSocialElement.isDisplayed() && okSocialElement.isDisplayed());
         System.out.println("Congrats!");
     }
 
@@ -77,7 +75,7 @@ public class Sber
         me.click();
     }
 
-    @After
+    @AfterEach
     public void finisher()
     {
         selectorDriver.quit();

@@ -1,11 +1,9 @@
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,13 +13,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("ALL")
 public class Rgs
 {
     WebDriver selectorDriver;
     WebDriverWait waitForLoad;
 
-    @Before
+    @BeforeEach
     public void preparation()
     {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -37,7 +34,7 @@ public class Rgs
     @Test
     public void execute()
     {
-        ///Main menu
+        //Main menu
         String menuXPath = "//a[@class='hidden-xs' and @data-toggle='dropdown']";
         WebElement menuElement = selectorDriver.findElement(By.xpath(menuXPath));
         clickOn(menuElement);
@@ -50,7 +47,7 @@ public class Rgs
         waitForLoad.until(ExpectedConditions.presenceOfElementLocated(By.xpath(headerXPath)));
         WebElement headerPostPageElement = selectorDriver.findElement(By.xpath(headerXPath));
         //Header check
-        Assert.assertTrue(headerPostPageElement.getText().contains("добровольное медицинское страхование"));
+        Assertions.assertTrue(headerPostPageElement.getText().contains("добровольное медицинское страхование"));
         //Query button
         String sendQueryXPath = "//a[@data-product='VoluntaryMedicalInsurance' and contains(@class, 'desktop')]";
         WebElement beginButtonElement = selectorDriver.findElement(By.xpath(sendQueryXPath));
@@ -65,7 +62,7 @@ public class Rgs
         WebElement modalWindowHeaderElement = selectorDriver.findElement(By.xpath(modalWindowHeaderXPath));
         waitForLoad.until(ExpectedConditions.visibilityOf(modalWindowHeaderElement));
         //Header check
-        Assert.assertTrue(modalWindowHeaderElement.getText().contains("добровольное медицинское страхование"));
+        Assertions.assertTrue(modalWindowHeaderElement.getText().contains("добровольное медицинское страхование"));
         //Fill field: surname
         String lastName = "//*[text()='Фамилия']/parent::div/input";
         WebElement lastNameElement = selectorDriver.findElement(By.xpath(lastName));
@@ -114,12 +111,12 @@ public class Rgs
         WebElement badAddressElement = selectorDriver.findElement(By.xpath(emailAddress + "/parent::div/div/label"));
 
         Assertions.assertAll(
-                () -> Assert.assertEquals("Агамиров", (String)lastNameElement.getAttribute("value")),
-                () -> Assert.assertEquals("Александр", (String)firstNameElement.getAttribute("value")),
-                () -> Assert.assertEquals("Аркадьевич", (String)paternityElement.getAttribute("value")),
-                () -> Assert.assertEquals( "+7 (916) 214-16-73", (String)phoneNumElement.getAttribute("value")),
-                () -> Assert.assertEquals( "03.04.2020", (String)contactDateElement.getAttribute("value")),
-                () -> Assert.assertTrue(badAddressElement.isDisplayed())
+                () -> Assertions.assertEquals("Агамиров", (String)lastNameElement.getAttribute("value")),
+                () -> Assertions.assertEquals("Александр", (String)firstNameElement.getAttribute("value")),
+                () -> Assertions.assertEquals("Аркадьевич", (String)paternityElement.getAttribute("value")),
+                () -> Assertions.assertEquals( "+7 (916) 214-16-73", (String)phoneNumElement.getAttribute("value")),
+                () -> Assertions.assertEquals( "03.04.2020", (String)contactDateElement.getAttribute("value")),
+                () -> Assertions.assertTrue(badAddressElement.isDisplayed())
         );
 
         System.out.println("Congratulations x18");
@@ -131,7 +128,7 @@ public class Rgs
         me.click();
     }
 
-    @After
+    @AfterEach
     public void finisher()
     {
         selectorDriver.quit();
